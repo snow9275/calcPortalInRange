@@ -141,8 +141,9 @@ public class PortalsMap {
 		int rangePortalCount;
 		radius = calcDistance(aX, aY, bX, bY)/2;
 		double rad = radius;
+		int divide = 32;
 		//半径調整,16分割
-		double dividedValue = rad/16;
+		double dividedValue = (double)(rad/divide);
 		//初期位置X,Y
 		for(int i = 0; i < portalNum; i++){
 			//System.out.println(portal[i].getPortalName());
@@ -151,10 +152,10 @@ public class PortalsMap {
 			portal[i].setBestCoordinateY(centerY);
 	
 			//find best coordinate of portal[i]	
-			for(int n = 0; n < 360; n++){
+			for(int n = 0; n < 400; n++){
 				rad = radius;
-				dividedValue = rad/16;
-				for(int p = 0; p < 16; p++){
+				dividedValue = (double)(rad/divide);
+				for(int p = 0; p < divide; p++){
 					rad -= dividedValue;
 					centerX = portal[i].getCoordinateX() + rad*Math.cos(Math.toRadians(n));
 					centerY = portal[i].getCoordinateY() + rad*Math.sin(Math.toRadians(n));
@@ -227,13 +228,21 @@ public class PortalsMap {
 			//			System.out.println(portal[i].getBestValue());
 			if(x <= portal[i].getBestValue()){
 				//print the best coordinates of portal
-				//				pw.println(portal[i].getPortalName()+","+portal[i].getBestCoordinateY()+","+portal[i].getBestCoordinateX());
-				//				System.out.println(portal[i].getPortalName()+":"+portal[i].getBestValue()+" "+portal[i].getBestCoordinateY()+","+portal[i].getBestCoordinateX());
-				//print the best points to stand
+				/*
+								pw.println(portal[i].getPortalName()+","+portal[i].getBestCoordinateY()+","+portal[i].getBestCoordinateX());
+								System.out.println(portal[i].getPortalName()+":"+portal[i].getBestValue()+" "+portal[i].getBestCoordinateY()+","+portal[i].getBestCoordinateX());
+				*/
+				//print the best all points to stand
+				/*
 				for(int j = 0; j < portal[i].getInRangeCoordinateSize(); j++){
 					pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(j)+","+portal[i].getInRangeCoordinateY(j));
-					//		System.out.println(portal[i].getBestValue()+" "+portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(j)+","+portal[i].getInRangeCoordinateY(j));
 				}
+				*/
+				//print the best optimized coordinates of portal
+				/*
+				pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(0)+","+portal[i].getInRangeCoordinateY(0));
+				*/pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(portal[i].getInRangeCoordinateSize()-1)+","+portal[i].getInRangeCoordinateY(portal[i].getInRangeCoordinateSize()-1));
+			
 			}
 		}
 		return pw;
