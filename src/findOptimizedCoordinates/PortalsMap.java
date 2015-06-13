@@ -4,6 +4,7 @@
 package findOptimizedCoordinates;
 
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 public class PortalsMap {
 
@@ -136,6 +137,9 @@ public class PortalsMap {
 		int ERTopY = -1;
 		int ERBottomY = -1;
 		int tmp[] = new int[2];
+		ArrayList<Double> listX;// = new ArrayList<Double>();
+		ArrayList<Double> listY;// = new ArrayList<Double>();
+		
 		double centerX = 0;
 		double centerY = 0;
 		int rangePortalCount;
@@ -148,11 +152,13 @@ public class PortalsMap {
 		for(int i = 0; i < portalNum; i++){
 			//System.out.println(portal[i].getPortalName());
 			portal[i].setBestValue(-1);
-			portal[i].setBestCoordinateX(centerX);
-			portal[i].setBestCoordinateY(centerY);
+		//	portal[i].setBestCoordinateX(centerX);
+		//	portal[i].setBestCoordinateY(centerY);
 	
 			//find best coordinate of portal[i]	
-			for(int n = 0; n < 400; n++){
+			for(int n = 0; n < 360; n++){
+				listX = new ArrayList<Double>();
+				listY = new ArrayList<Double>();
 				rad = radius;
 				dividedValue = (double)(rad/divide);
 				for(int p = 0; p < divide; p++){
@@ -183,18 +189,29 @@ public class PortalsMap {
 						}
 					}
 					if(portal[i].getBestValue() < rangePortalCount){
-						portal[i].clearInRangeCoordinate();
-						portal[i].addCoordinate(centerX, centerY);
+						portal[i].clearInRangeCoordinateList();
+						listX.clear(); 
+						listY.clear();
+						listX.add(centerX); 
+						listY.add(centerY);
+			//			System.out.println(rangePortalCount+"----------"+listX.get(listX.size()-1));
+
 						portal[i].setBestValue(rangePortalCount);
-						portal[i].setBestCoordinateX(centerX);
-						portal[i].setBestCoordinateY(centerY);
 					} else if(portal[i].getBestValue() == rangePortalCount){
-						portal[i].addCoordinate(centerX, centerY);
+					//	System.out.println(".........."+listX.get(listX.size()-1));
+						listX.add(centerX); 
+						listY.add(centerY);
 					}
-					/*			System.out.println(n+" finisied. :"+rangePortalCount);*/
-					rangePortalCount = 0;
+					
 				}
-			}//System.out.println("------------------------------");
+		//		System.out.println("");
+		//		for(int s = 0; s < listX.size(); s++){	System.out.println("  "+listX.get(s)+" "+listY.get(s));}
+				if(listX.size() != 0){
+					portal[i].addCoordinateListX(listX);
+					portal[i].addCoordinateListY(listY);
+				}
+			//	System.out.println("------------------------------");
+			}
 		}
 	}
 
@@ -239,10 +256,10 @@ public class PortalsMap {
 				}
 				*/
 				//print the best optimized coordinates of portal
-				/*
-				pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(0)+","+portal[i].getInRangeCoordinateY(0));
-				*/pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(portal[i].getInRangeCoordinateSize()-1)+","+portal[i].getInRangeCoordinateY(portal[i].getInRangeCoordinateSize()-1));
-			
+				for(int j = 0; j < portal[i].getInRangeCoordinateListSize(); j++)
+//					pw.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(j,portal[i].getInRangeCoordinateSize(j)-1)+","+portal[i].getInRangeCoordinateY(j,portal[i].getInRangeCoordinateSize(j)-1));
+					System.out.println(portal[i].getPortalName()+","+portal[i].getInRangeCoordinateX(j,0)+","+portal[i].getInRangeCoordinateY(j,0));
+		//			 System.out.println("~~~"+portal[i].getInRangeCoordinateY(j,0));
 			}
 		}
 		return pw;

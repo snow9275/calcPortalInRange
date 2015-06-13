@@ -9,14 +9,14 @@ public class Portal {
 	private double coordinateX;
 	private double coordinateY;
 	//このポータルの最適な座標x,y(経度、緯度)
-	private double bestCoordinateX;
-	private double bestCoordinateY;
+//	private double bestCoordinateX;
+//	private double bestCoordinateY;
 	//最適座標でのレンジ内ポータル数
 	private int bestValue;
 	//マップ上の位置 map[0]:x 経度, map[1]:y 緯度
 	private int[] map = new int[2];
-	private List<Double> inRangeCoordinateX = new ArrayList<Double>();
-	private List<Double> inRangeCoordinateY = new ArrayList<Double>();
+	private List<ArrayList<Double> > inRangeCoordinateListX = new ArrayList<ArrayList<Double> >();
+	private List<ArrayList<Double> > inRangeCoordinateListY = new ArrayList<ArrayList<Double> >();
 	Portal(){}
 	Portal(String name, double x, double y){
 		portalName = name;
@@ -35,7 +35,7 @@ public class Portal {
 	double getCoordinateY(){
 		return coordinateY;
 	}
-	void setBestCoordinateX(double x){
+/*	void setBestCoordinateX(double x){
 		bestCoordinateX = x;
 	}
 
@@ -50,7 +50,7 @@ public class Portal {
 	double getBestCoordinateY(){
 		return bestCoordinateY;
 	}
-
+*/
 	void setBestValue(int value){
 		bestValue = value;
 	}
@@ -68,25 +68,36 @@ public class Portal {
 		return map[x];
 	}
 
-	void addCoordinate(double x, double y){
-		inRangeCoordinateX.add(x);
-		inRangeCoordinateY.add(y);
+	void addCoordinateListX(ArrayList<Double> list){
+		inRangeCoordinateListX.add(list);
 	}
 
-	int getInRangeCoordinateSize(){
-		return inRangeCoordinateX.size();
+	void addCoordinateListY(ArrayList<Double> list){
+		inRangeCoordinateListY.add(list);
+	}
+	
+	int getInRangeCoordinateListSize(){
+		return inRangeCoordinateListX.size();
 	}
 
-	double getInRangeCoordinateX(int n){
-		return inRangeCoordinateX.get(n);
+	int getInRangeCoordinateSize(int i){
+		return inRangeCoordinateListX.get(i).size();
+	}
+	
+	double getInRangeCoordinateX(int i, int j){
+		return inRangeCoordinateListX.get(i).get(j);
 	}
 
-	double getInRangeCoordinateY(int n){
-		return inRangeCoordinateY.get(n);
+	double getInRangeCoordinateY(int i, int j){
+		return inRangeCoordinateListY.get(i).get(j);
 	}
 
-	void clearInRangeCoordinate(){
-		inRangeCoordinateX.clear();
-		inRangeCoordinateY.clear();
+	void clearInRangeCoordinateList(){
+		
+		for(int i = 0; i < inRangeCoordinateListX.size(); i++){
+		inRangeCoordinateListX.clear();
+		inRangeCoordinateListY.clear();
+		}
+		
 	}
 }
